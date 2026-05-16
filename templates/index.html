@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <title>Convertify</title>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+      <div class="logo">CONVERTIFY</div>
+
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Tools</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+
+      <button class="login-btn">Login</button>
+    </div>
+
+    <!-- TOOLS -->
+    <div class="tools-container">
+      <div class="box">
+        <h1>PDF To Word</h1>
+        <form action="/pdf-to-word" method="POST" enctype="multipart/form-data">
+          <br />
+          <input
+            type="file"
+            name="file"
+            class="file-input"
+            accept=".pdf"
+            required
+          />
+          <button type="submit" class="convert-btn">Convert to Word</button>
+        </form>
+      </div>
+      <div class="box">
+        <h1>JPG To PDF</h1>
+        <form action="/jpg-to-pdf" method="POST" enctype="multipart/form-data">
+          <br />
+          <input
+            type="file"
+            name="file"
+            class="file-input"
+            accept=".pdf"
+            required
+          />
+          <button type="submit" class="convert-btn">Convert to Word</button>
+        </form>
+      </div>
+      <div class="box">
+        <h1>PDF To Word</h1>
+        <form action="/pdf-to-word" method="POST" enctype="multipart/form-data">
+          <br />
+          <input
+            type="file"
+            name="file"
+            class="file-input"
+            accept=".pdf"
+            required
+          />
+          <button type="submit" class="convert-btn">Convert to Word</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
