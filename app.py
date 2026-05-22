@@ -4,6 +4,8 @@ from pdf2docx import Converter
 import os
 import uuid
 from PIL import Image
+import pythoncom
+from docx2pdf import convert
 
 app = Flask(__name__)
 
@@ -63,73 +65,138 @@ def pdf_to_word():
         as_attachment=True
     )
 
-@app.route('/jpg-to-pdf', methods=['GET', 'POST'])
-def jpg_to_pdf():
+@app.route('/image-converter', methods=['GET', 'POST'])
+def image_converter():
 
+    # OPEN PAGE
     if request.method == 'GET':
-        return render_template('jpg_to_pdf.html')
 
+        return render_template(
+            'image_converter.html'
+        )
+
+    # GET FILE
     file = request.files['image']
 
-    ext = file.filename.lower().split('.')[-1]
+    # GET FORMAT
+    output_format = request.form['format']
 
-    if ext not in ['jpg', 'jpeg', 'png']:
-        return "Only JPG and PNG allowed"
+    # CHECK FILE
+    if file.filename == "":
 
+        return "No file selected"
+
+    # OPEN IMAGE
     img = Image.open(file)
 
-    if img.mode in ("RGBA", "P"):
-        img = img.convert("RGB")
+    # FIX TRANSPARENCY
+    if output_format in ['jpg', 'jpeg']:
 
-    os.makedirs("converted", exist_ok=True)
+        if img.mode in ('RGBA', 'LA', 'P'):
 
-    filename = str(uuid.uuid4()) + ".pdf"
-    output_path = os.path.join("converted", filename)
+            background = Image.new(
+                "RGB",
+                img.size,
+                (255, 255, 255)
+            )
 
-    img.save(output_path, "PDF")
+            if img.mode == 'P':
 
-    return send_file(output_path, as_attachment=True)
+                img = img.convert('RGBA')
 
-# ================= WORD TO PDF =================
+            background.paste(
+                img,
+                mask=img.split()[-1]
+            )
+
+            img = background
+
+        else:
+
+            img = img.convert("RGB")
+
+    # OUTPUT NAME
+    filename = (
+        str(uuid.uuid4())
+        + "."
+        + output_format
+    )
+
+    # OUTPUT PATH
+    output_path = os.path.join(
+        CONVERTED_FOLDER,
+        filename
+    )
+
+    # FIX FORMAT NAME
+    save_format = output_format.upper()
+
+    if save_format == "JPG":
+
+        save_format = "JPEG"
+
+    # SAVE IMAGE
+    img.save(
+        output_path,
+        save_format
+    )
+
+    # DOWNLOAD
+    return send_file(
+        output_path,
+        as_attachment=True
+    )
 @app.route('/word-to-pdf', methods=['GET', 'POST'])
 def word_to_pdf():
 
+    # OPEN PAGE
     if request.method == 'GET':
         return render_template(
             'word_to_pdf.html'
         )
 
+    # GET FILE
     uploaded_file = request.files['word']
 
+    # CHECK FILE
     if uploaded_file.filename == "":
         return "No file selected"
 
-    filename = uploaded_file.filename
-
-    save_path = os.path.join(
+    # SAVE PATH
+    word_path = os.path.join(
         UPLOAD_FOLDER,
-        filename
+        uploaded_file.filename
     )
 
-    uploaded_file.save(save_path)
+    # SAVE FILE
+    uploaded_file.save(word_path)
 
-    return redirect(
-        url_for(
-            'workspace',
-            tool='word-to-pdf',
-            filename=filename
-        )
+    # PDF NAME
+    pdf_filename = uploaded_file.filename.replace(
+        ".docx",
+        ".pdf"
     )
 
-
-# ================= UNIVERSAL WORKSPACE =================
-@app.route('/workspace/<tool>/<filename>')
-def workspace(tool, filename):
-
-    return render_template(
-        'converter_workspace.html',
-        tool=tool,
-        filename=filename
+    # PDF PATH
+    pdf_path = os.path.join(
+        CONVERTED_FOLDER,
+        pdf_filename
     )
+    pythoncom.CoInitialize()
+    # CONVERT
+    try:
+
+        convert(word_path, pdf_path)
+
+    except Exception as e:
+
+        return "Conversion Error: " + str(e)
+
+    # DOWNLOAD
+    return send_file(
+        pdf_path,
+        as_attachment=True
+    )
+
 if __name__ == '__main__':
     app.run(debug=True)

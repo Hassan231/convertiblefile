@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='jpg_to_pdf.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',
+      filename='jpg_to_pdf.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -11,32 +12,94 @@
   <h1>Word to PDF</h1>
 
   <p>
-    Convert Word documents to PDF files in seconds.
-    Maintain formatting and layout with ease.
+    Convert Word documents to PDF files instantly.
   </p>
 
-  <form action="/word-to-pdf"
-        method="POST"
-        enctype="multipart/form-data">
+  <form id="uploadForm" action="/word-to-pdf" method="POST" enctype="multipart/form-data" target="hiddenIframe">
 
-    <label class="upload-btn">
+    <!-- HIDDEN FILE INPUT -->
+    <input type="file" id="wordInput" name="word" accept=".doc,.docx" hidden required>
 
-      Upload Word Document
+    <!-- MAIN BUTTON -->
+    <button type="button" id="mainBtn" class="upload-btn">
 
-      <input type="file"
-             name="word"
-             accept=".docx,.docx"
-             required>
+      Select Word File
 
-    </label>
-  
+    </button>
+    <p id="fileName" class="file-name">
 
-    <p class="drag-text">
-      or drop Word documents here
+      No file selected
+
     </p>
-
   </form>
+  <iframe name="hiddenFrame" style="display:none;"></iframe>
 
 </div>
 
+<script>
+
+const wordInput =
+document.getElementById(
+    "wordInput"
+);
+
+const mainBtn =
+document.getElementById(
+    "mainBtn"
+);
+
+const fileName =
+document.getElementById(
+    "fileName"
+);
+
+let fileSelected = false;
+
+
+// BUTTON CLICK
+mainBtn.addEventListener(
+    "click",
+    function(){
+
+        if(!fileSelected){
+
+            wordInput.click();
+
+        }
+
+        else{
+
+            document.getElementById(
+                "uploadForm"
+            ).submit();
+
+        }
+
+    }
+);
+
+
+// FILE SELECTED
+wordInput.addEventListener(
+    "change",
+    function(){
+
+        if(wordInput.files.length > 0){
+
+            fileSelected = true;
+
+            // CHANGE BUTTON
+            mainBtn.innerText =
+            "Convert to PDF";
+
+            // SHOW FILE NAME
+            fileName.innerText =
+            wordInput.files[0].name;
+
+        }
+
+    }
+);
+
+</script>
 {% endblock %}

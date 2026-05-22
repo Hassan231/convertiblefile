@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block css %}
+<link rel="stylesheet"
+      href="{{ url_for('static',
+      filename='jpg_to_pdf.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="converter-container">
+
+    <h1>Image Converter</h1>
+
+    <p>
+        Convert JPG, PNG, JPEG and WEBP images instantly.
+    </p>
+
+    <form id="uploadForm"
+          action="/image-converter"
+          method="POST"
+          enctype="multipart/form-data"
+          target="hiddenFrame">
+
+        <!-- FORMAT SELECT -->
+        <select id="formatSelect"
+                name="format"
+                class="upload-btn">
+
+            <option value="" disabled selected>
+                Select Image Format
+            </option>
+
+            <option value="jpg">JPG</option>
+            <option value="jpeg">JPEG</option>
+            <option value="png">PNG</option>
+            <option value="webp">WEBP</option>
+
+        </select>
+
+        <!-- HIDDEN FILE INPUT -->
+        <input type="file"
+               id="imageInput"
+               name="image"
+               accept=".jpg,.jpeg,.png,.webp"
+               hidden>
+
+        <!-- BUTTON -->
+        <button type="button"
+                id="mainBtn"
+                class="upload-btn"
+                style="display:none;">
+
+            Select Image
+
+        </button>
+
+        <!-- FILE NAME -->
+        <p id="fileName"
+           class="file-name">
+
+        </p>
+
+    </form>
+
+    <!-- HIDDEN DOWNLOAD FRAME -->
+    <iframe name="hiddenFrame"
+            style="display:none;">
+    </iframe>
+
+</div>
+
+<script>
+
+const formatSelect =
+document.getElementById(
+    "formatSelect"
+);
+
+const imageInput =
+document.getElementById(
+    "imageInput"
+);
+
+const mainBtn =
+document.getElementById(
+    "mainBtn"
+);
+
+const fileName =
+document.getElementById(
+    "fileName"
+);
+
+let fileSelected = false;
+
+
+// SHOW BUTTON AFTER FORMAT SELECT
+formatSelect.addEventListener(
+    "change",
+    function(){
+
+        // SHOW BUTTON
+        mainBtn.style.display =
+        "inline-block";
+
+        // RESET FILE INPUT
+        imageInput.value = "";
+
+        // RESET FILE STATE
+        fileSelected = false;
+
+        // RESET BUTTON TEXT
+        mainBtn.innerText =
+        "Select Image";
+
+        // RESET FILE NAME
+        fileName.innerText =
+        "";
+
+    }
+);
+
+
+// BUTTON CLICK
+mainBtn.addEventListener(
+    "click",
+    function(){
+
+        // OPEN FILE EXPLORER
+        if(!fileSelected){
+
+            imageInput.click();
+
+        }
+
+        // SUBMIT FORM
+        else{
+
+            document.getElementById(
+                "uploadForm"
+            ).submit();
+
+        }
+
+    }
+);
+
+
+// FILE SELECTED
+imageInput.addEventListener(
+    "change",
+    function(){
+
+        if(imageInput.files.length > 0){
+
+            fileSelected = true;
+
+            // CHANGE BUTTON
+            mainBtn.innerText =
+            "Convert Image";
+
+            // SHOW FILE NAME
+            fileName.innerText =
+            imageInput.files[0].name;
+
+        }
+
+    }
+);
+
+</script>
+
+{% endblock %}
