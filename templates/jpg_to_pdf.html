@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='jpg_to_pdf.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="converter-container">
+
+  <h1>JPG to PDF</h1>
+
+  <p>
+    Convert JPG images to PDF in seconds.
+    Easily adjust orientation and margins.
+  </p>
+
+  <form action="/jpg-to-pdf"
+        method="POST"
+        enctype="multipart/form-data">
+
+    <label class="upload-btn">
+
+      Upload JPG Image
+
+      <input type="file"
+             name="image"
+             accept=".jpg,.jpeg,.png"
+             required>
+
+    </label>
+
+    <p class="drag-text">
+      or drop JPG images here
+    </p>
+
+  </form>
+
+</div>
+
+{% endblock %}

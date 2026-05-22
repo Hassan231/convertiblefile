@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <!-- BASE CSS -->
+  <link rel="stylesheet"
+        href="{{ url_for('static',
+        filename='base.css') }}">
+
+  <!-- PAGE CSS -->
+  {% block css %}
+  {% endblock %}
+
+  <title>ConvertibleFile</title>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+  <div class="logo">
+    <img src="{{ url_for('static', filename='logo.png') }}">
+  </div>
+
+  <ul class="nav-links">
+
+    <li><a href="/">Home</a></li>
+
+    <li class="dropdown">
+      <a href="#" class="dropbtn"
+         onclick="toggleDropdown(event)">Tools</a>
+
+      <div id="myDropdown" class="dropdown-content">
+        <a href="/jpg-to-pdf">JPG to PDF</a>
+        <a href="/pdf-to-word">PDF to Word</a>
+        <a href="/word-to-pdf">Word to PDF</a>
+        <a href="/pdf-to-jpg">PDF to JPG</a>
+      </div>
+    </li>
+
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">Contact</a></li>
+
+  </ul>
+
+</div>
+
+<!-- PAGE CONTENT -->
+{% block content %}
+{% endblock %}
+
+<!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-box">
+          <h3>ConvertibleFile</h3>
+          <p>
+            All-in-one file conversion platform. Fast, secure, and free to use.
+          </p>
+        </div>
+
+        <div class="footer-box">
+          <h4>Quick Links</h4>
+          <a href="/">Home</a>
+          <a href="/pdf-to-word">PDF Tools</a>
+          <a href="/jpg-to-pdf">Image Tools</a>
+          <a href="/word-to-pdf">Word Tools</a>
+          <a href="/pdf-to-jpg">PDF Tools</a>
+        </div>
+
+        <div class="footer-box">
+          <h4>Contact</h4>
+          <p>Email: support@convertiblefile.com</p>
+        </div>
+      </div>
+
+   
+
+<script>
+function toggleDropdown(event) {
+  event.preventDefault();
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    document.getElementById("myDropdown").classList.remove('show');
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,73 +1,126 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <title>Convertify</title>
-  </head>
-  <body>
-    <!-- NAVBAR -->
-    <div class="navbar">
-      <div class="logo">CONVERTIFY</div>
+{% extends "base.html" %}
 
-      <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Tools</a></li>
-        <li><a href="#">Pricing</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
+{% block css %}
 
-      <button class="login-btn">Login</button>
+<link rel="stylesheet"
+href="{{ url_for('static', filename='style.css') }}">
+<link rel="icon" type="image/png"
+href="{{ url_for('static', filename='logo.png') }}">
+
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO section closed for now -->
+<!--<section class="hero">
+
+  <h1>
+    Convert Files Easily & Fast
+  </h1>
+
+  <p>
+    PDF, Images, Word files — all in one place.
+    Free & simple converter platform.
+  </p>
+
+  <a href="#tools" class="hero-btn">
+    Explore Tools
+  </a>
+
+</section>
+
+<!-- TOOLS -->
+<section class="tools-section" id="tools">
+
+  <div class="tools-grid">
+
+    <!-- JPG TO PDF -->
+    <a href="/jpg-to-pdf" class="tool-card">
+
+      <h2>JPG to PDF</h2>
+
+      <p>
+        Convert JPG images into PDF instantly.
+      </p>
+
+    </a>
+
+    <!-- PDF TO WORD -->
+    <a href="/pdf-to-word" class="tool-card">
+
+      <h2>PDF to Word</h2>
+
+      <p>
+        Convert PDF into editable Word files.
+      </p>
+
+    </a>
+
+    <!-- WORD TO PDF -->
+    <a href="/word-to-pdf" class="tool-card">
+
+      <h2>Word to PDF</h2>
+
+      <p>
+        Convert Word files into PDF format.
+      </p>
+
+    </a>
+
+    <!-- PDF TO JPG -->
+    <a href="/pdf-to-jpg" class="tool-card">
+
+      <h2>PDF to JPG</h2>
+
+      <p>
+        Convert PDF pages into JPG images.
+      </p>
+
+    </a>
+
+  </div>
+
+</section>
+
+<!-- FEATURES -->
+<!--<section class="features">
+
+  <h2>Why Choose Us?</h2>
+
+  <div class="feature-boxes">
+
+    <div class="feature">
+
+      <h3>⚡ Fast Conversion</h3>
+
+      <p>
+        Convert files in seconds with high speed processing.
+      </p>
+
     </div>
 
-    <!-- TOOLS -->
-    <div class="tools-container">
-      <div class="box">
-        <h1>PDF To Word</h1>
-        <form action="/pdf-to-word" method="POST" enctype="multipart/form-data">
-          <br />
-          <input
-            type="file"
-            name="file"
-            class="file-input"
-            accept=".pdf"
-            required
-          />
-          <button type="submit" class="convert-btn">Convert to Word</button>
-        </form>
-      </div>
-      <div class="box">
-        <h1>JPG To PDF</h1>
-        <form action="/jpg-to-pdf" method="POST" enctype="multipart/form-data">
-          <br />
-          <input
-            type="file"
-            name="file"
-            class="file-input"
-            accept=".pdf"
-            required
-          />
-          <button type="submit" class="convert-btn">Convert to Word</button>
-        </form>
-      </div>
-      <div class="box">
-        <h1>PDF To Word</h1>
-        <form action="/pdf-to-word" method="POST" enctype="multipart/form-data">
-          <br />
-          <input
-            type="file"
-            name="file"
-            class="file-input"
-            accept=".pdf"
-            required
-          />
-          <button type="submit" class="convert-btn">Convert to Word</button>
-        </form>
-      </div>
+    <div class="feature">
+
+      <h3>🔒 Secure</h3>
+
+      <p>
+        Your files are automatically deleted after processing.
+      </p>
+
     </div>
-  </body>
-</html>
+
+    <div class="feature">
+
+      <h3>📱 Easy to Use</h3>
+
+      <p>
+        Simple interface designed for everyone.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+{% endblock %}

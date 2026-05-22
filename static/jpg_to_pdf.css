@@ -1,0 +1,48 @@
+.converter-container{
+  text-align:center;
+  margin-top:80px;
+}
+
+.converter-container h1{
+  font-size:52px;
+  color:#333;
+  margin-bottom:15px;
+  text-align: center;
+
+}
+
+.converter-container p{
+  color:#555;
+  font-size:20px;
+  margin-bottom:35px;
+}
+
+/* UPLOAD BUTTON */
+.upload-btn{
+  display:inline-block;
+  background:#cd8c2a;
+  color:white;
+  padding:28px 80px;
+  font-size:28px;
+  font-weight:bold;
+  border-radius:14px;
+  cursor:pointer;
+  transition:0.3s;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+.upload-btn:hover{
+  background:#c62828;
+  transform:translateY(-2px);
+}
+
+/* HIDE INPUT */
+.upload-btn input{
+  display:none;
+}
+
+.drag-text{
+  margin-top:20px;
+  font-size:18px;
+  color:#666;
+}

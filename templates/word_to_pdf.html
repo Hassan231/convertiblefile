@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='jpg_to_pdf.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="converter-container">
+
+  <h1>Word to PDF</h1>
+
+  <p>
+    Convert Word documents to PDF files in seconds.
+    Maintain formatting and layout with ease.
+  </p>
+
+  <form action="/word-to-pdf"
+        method="POST"
+        enctype="multipart/form-data">
+
+    <label class="upload-btn">
+
+      Upload Word Document
+
+      <input type="file"
+             name="word"
+             accept=".docx,.docx"
+             required>
+
+    </label>
+  
+
+    <p class="drag-text">
+      or drop Word documents here
+    </p>
+
+  </form>
+
+</div>
+
+{% endblock %}
